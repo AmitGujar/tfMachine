@@ -24,7 +24,3 @@ module "virtual_machine" {
   subnet_id     = module.virtual_network.terraform_subnet
   public_ip_id  = module.virtual_network.terraform_public_ip
 }
-
-
-
-# this will create Azure resource group

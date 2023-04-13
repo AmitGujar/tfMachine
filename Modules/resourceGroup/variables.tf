@@ -1,6 +1,6 @@
 variable "resource_name" {
   type        = string
-  default     = "TFmodule"
+  default     = "Amit"
 }
 
 variable "location" {

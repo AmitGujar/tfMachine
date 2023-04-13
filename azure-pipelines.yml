@@ -11,3 +11,9 @@ steps:
     SourceFolder: '$(agent.builddirectory)'
     Contents: '**'
     TargetFolder: '$(build.artifactstagingdirectory)/Terraform'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)'
+    ArtifactName: 'drop'

@@ -1,11 +1,11 @@
-# terraform {
-#   backend "azurerm" {
-#     storage_account_name = "__storageaccount__"
-#     container_name       = "terraform"
-#     key                  = "terraform.tfstate"
-#     access_key           = "__storagekey__"
-#   }
-# }
+terraform {
+  backend "azurerm" {
+    storage_account_name = "__storageaccount__"
+    container_name       = "terraform"
+    key                  = "terraform.tfstate"
+    access_key           = "__storagekey__"
+  }
+}
 
 module "resource_group" {
   source = "./Modules/resourceGroup"

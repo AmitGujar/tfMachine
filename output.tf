@@ -14,3 +14,7 @@ output "tls_private_key" {
 output "public_ip_address" {
   value = module.virtual_machine.public_ip_address
 }
+
+output "storage_account" {
+  value = module.storage_account.terraform_storage
+}

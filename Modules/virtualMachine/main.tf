@@ -14,6 +14,17 @@ resource "azurerm_network_security_group" "my_terraform_nsg" {
     source_address_prefix      = "*"
     destination_address_prefix = "*"
   }
+  security_rule {
+    name                       = "HTTP"
+    priority                   = 1002
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "80"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
 }
 
 # Create network interface
@@ -28,12 +39,19 @@ resource "azurerm_network_interface" "my_terraform_nic" {
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = var.public_ip_id
   }
+  depends_on = [
+    azurerm_network_security_group.my_terraform_nsg
+  ]
 }
 
 # Connect the security group to the network interface
-resource "azurerm_network_interface_security_group_association" "example" {
+resource "azurerm_network_interface_security_group_association" "nsgconnection" {
   network_interface_id      = azurerm_network_interface.my_terraform_nic.id
   network_security_group_id = azurerm_network_security_group.my_terraform_nsg.id
+
+  depends_on = [
+    azurerm_network_interface.my_terraform_nic
+  ]
 }
 
 # Create (and display) an SSH key
@@ -71,4 +89,16 @@ resource "azurerm_linux_virtual_machine" "my_terraform_vm" {
     username   = "amitgujar"
     public_key = tls_private_key.private_ssh.public_key_openssh
   }
+  provisioner "remote-exec" {
+    connection {
+      type        = "ssh"
+      host        = azurerm_linux_virtual_machine.my_terraform_vm.public_ip_address
+      user        = "amitgujar"
+      private_key = tls_private_key.private_ssh.private_key_pem
+    }
+    script = "${path.module}/scripts/install.sh"
+  }
+  depends_on = [
+    azurerm_network_interface_security_group_association.nsgconnection
+  ]
 }

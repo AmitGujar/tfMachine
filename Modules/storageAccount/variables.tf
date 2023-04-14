@@ -8,7 +8,7 @@ variable "location" {
 
 variable "account_name" {
   type = string
-  default = "myterraformstorage"
+  default = "myterrastorageisgreat"
 }
 
 variable "container_name" {

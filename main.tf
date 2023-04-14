@@ -30,6 +30,6 @@ module "storage_account" {
   resource_name = module.resource_group.resource_name
   location      = module.resource_group.location
   depends_on = [
-    module.virtual_machine
+    module.resource_group
   ]
 }

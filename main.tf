@@ -25,8 +25,11 @@ module "virtual_machine" {
   public_ip_id  = module.virtual_network.terraform_public_ip
 }
 
-# module "storage_account" {
-#   source        = "./Modules/storageAccount"
-#   resource_name = module.resource_group.resource_name
-#   location      = module.resource_group.location
-# }
+module "storage_account" {
+  source        = "./Modules/storageAccount"
+  resource_name = module.resource_group.resource_name
+  location      = module.resource_group.location
+  depends_on = [
+    module.virtual_machine
+  ]
+}

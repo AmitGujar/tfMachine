@@ -11,4 +11,7 @@ resource "azurerm_storage_container" "terraform_container" {
   name                  = var.container_name
   storage_account_name  = azurerm_storage_account.terraform_storage.name
   container_access_type = "private"
+  depends_on = [
+    azurerm_storage_account.terraform_storage
+  ]
 }
